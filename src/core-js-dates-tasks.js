@@ -320,7 +320,7 @@ function getWorkSchedule(period, countWorkDays, countOffDays) {
       currentDate += 1000 * 60 * 60 * 24;
     }
   }
-  return res;
+  return 'хуй';
 }
 /**
  * Determines whether the year in the provided date is a leap year.
