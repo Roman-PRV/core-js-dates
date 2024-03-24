@@ -140,8 +140,11 @@ function getCountDaysOnPeriod(dateStart, dateEnd) {
  * '2024-02-02', { start: '2024-02-02', end: '2024-03-02' } => true
  * '2024-02-10', { start: '2024-02-02', end: '2024-03-02' } => true
  */
-function isDateInPeriod(/* date, period */) {
-  throw new Error('Not implemented');
+function isDateInPeriod(date, period) {
+  return (
+    new Date(period.start).getTime() <= new Date(date).getTime() &&
+    new Date(period.end).getTime() >= new Date(date).getTime()
+  );
 }
 
 /**
@@ -155,10 +158,20 @@ function isDateInPeriod(/* date, period */) {
  * '1999-01-05T02:20:00.000Z' => '1/5/1999, 2:20:00 AM'
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
-function formatDate(/* date */) {
-  throw new Error('Not implemented');
-}
+function formatDate(date) {
+  const dateO = new Date(date);
+  const month = dateO.getUTCMonth() + 1;
+  const day = dateO.getUTCDate();
+  const year = dateO.getUTCFullYear();
+  const hours = dateO.getUTCHours();
+  const minutes = dateO.getUTCMinutes().toString().padStart(2, 0);
+  const seconds = dateO.getUTCSeconds().toString().padStart(2, 0);
+  const a = hours >= 12 ? 'PM' : 'AM';
 
+  return `${month}/${day}/${year}, ${
+    hours >= 13 ? hours % 12 : hours
+  }:${minutes}:${seconds} ${a}`;
+}
 /**
  * Returns the total number of weekend days (Saturdays and Sundays) in a specified month and year.
  *
@@ -171,8 +184,17 @@ function formatDate(/* date */) {
  * 12, 2023 => 10
  * 1, 2024 => 8
  */
-function getCountWeekendsInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountWeekendsInMonth(month, year) {
+  const days = new Date(year, month, 0).getDate();
+  const firstDay = new Date(year, month - 1, 1).getDay();
+
+  if (firstDay === 4 && days === 31) return 9;
+  if (firstDay === 5 && days === 30) return 9;
+  if (firstDay === 5 && days === 31) return 10;
+  if (firstDay === 6 && days === 29) return 9;
+  if (firstDay === 6) return 10;
+  if (firstDay === 0 && days >= 29) return 9;
+  return 8;
 }
 
 /**
