@@ -239,11 +239,7 @@ function getNextFridayThe13th(date) {
     start += 1000 * 60 * 60 * 24;
   }
   const fecha = new Date(start);
-  return new Date(
-    fecha.getUTCFullYear(),
-    fecha.getUTCMonth(),
-    fecha.getUTCDate() + 1
-  );
+  return new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
 }
 
 /**
@@ -301,17 +297,20 @@ function getWorkSchedule(period, countWorkDays, countOffDays) {
   const res = [];
   let currentDate = start;
 
-  while (startIndex < cycleLength && currentDate <= end) {
+  while (startIndex < cycleLength && currentDate <= end + 1000 * 60 * 60) {
     let dayIndex = 0;
     while (dayIndex < countWorkDays) {
       const cur = new Date(currentDate);
-
-      if (currentDate <= end)
+      if (currentDate <= end + 1000 * 60 * 60) {
         res.push(
-          `${cur.getDate().toString().padStart(2, 0)}-${(cur.getMonth() + 1)
+          `${cur.getUTCDate().toString().padStart(2, 0)}-${(
+            cur.getUTCMonth() + 1
+          )
             .toString()
-            .padStart(2, 0)}-${cur.getFullYear()}`
+            .padStart(2, 0)}-${cur.getUTCFullYear()}`
         );
+      }
+
       dayIndex += 1;
       currentDate += 1000 * 60 * 60 * 24;
     }
