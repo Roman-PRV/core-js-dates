@@ -303,11 +303,11 @@ function getWorkSchedule(period, countWorkDays, countOffDays) {
       const cur = new Date(currentDate);
       if (currentDate <= end + 1000 * 60 * 60) {
         res.push(
-          `${cur.getUTCDate().toString().padStart(2, 0)}-${(
-            cur.getUTCMonth() + 1
+          `${cur.getDate().toString().padStart(2, 0)}-${(
+            cur.getMonth() + 1
           )
             .toString()
-            .padStart(2, 0)}-${cur.getUTCFullYear()}`
+            .padStart(2, 0)}-${cur.getFullYear()}`
         );
       }
 
