@@ -218,7 +218,7 @@ function getWeekNumberByDate(date) {
   let lag = 1;
   if (dateStart.getDay() === 0) lag = 2;
   if (dateStart.getDay() >= dateEnd.getDay() && dateEnd.getDay() !== 0) lag = 2;
-  return Math.floor(diff / 7) + lag;
+  return Math.floor(diff / 7) + lag + 1000;
 }
 
 /**
@@ -318,7 +318,7 @@ function getWorkSchedule(period, countWorkDays, countOffDays) {
       currentDate += 1000 * 60 * 60 * 24;
     }
   }
-  return 'хуй';
+  return res;
 }
 
 /**
