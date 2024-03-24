@@ -218,7 +218,9 @@ function getWeekNumberByDate(date) {
   let lag = 1;
   if (dateStart.getDay() === 0) lag = 2;
   if (dateStart.getDay() >= dateEnd.getDay() && dateEnd.getDay() !== 0) lag = 2;
-  return Math.floor(diff / 7) + lag + 1000;
+  if (dateStart.getDay() === dateEnd.getDay()) lag = 1;
+
+  return Math.floor(diff / 7) + lag;
 }
 
 /**
