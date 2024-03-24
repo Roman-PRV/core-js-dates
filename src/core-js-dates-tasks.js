@@ -303,11 +303,9 @@ function getWorkSchedule(period, countWorkDays, countOffDays) {
       const cur = new Date(currentDate);
       if (currentDate <= end + 1000 * 60 * 60) {
         res.push(
-          `${cur.getUTCDate().toString().padStart(2, 0)}-${(
-            cur.getUTCMonth() + 1
-          )
+          `${cur.getDate().toString().padStart(2, 0)}-${(cur.getMonth() + 1)
             .toString()
-            .padStart(2, 0)}-${cur.getUTCFullYear()}`
+            .padStart(2, 0)}-${cur.getFullYear()}`
         );
       }
 
@@ -320,8 +318,9 @@ function getWorkSchedule(period, countWorkDays, countOffDays) {
       currentDate += 1000 * 60 * 60 * 24;
     }
   }
-  return 'хуй';
+  return res;
 }
+
 /**
  * Determines whether the year in the provided date is a leap year.
  * A leap year is a year divisible by 4, but not by 100, unless it is also divisible by 400.
