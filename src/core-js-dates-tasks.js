@@ -285,10 +285,44 @@ function getQuarter(date) {
  * { start: '01-01-2024', end: '15-01-2024' }, 1, 3 => ['01-01-2024', '05-01-2024', '09-01-2024', '13-01-2024']
  * { start: '01-01-2024', end: '10-01-2024' }, 1, 1 => ['01-01-2024', '03-01-2024', '05-01-2024', '07-01-2024', '09-01-2024']
  */
-function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
-  throw new Error('Not implemented');
-}
+function getWorkSchedule(period, countWorkDays, countOffDays) {
+  const startSource = period.start.split('-');
+  const endSource = period.end.split('-');
+  const start = new Date(
+    startSource[2],
+    startSource[1] - 1,
+    startSource[0]
+  ).getTime();
 
+  const end = new Date(endSource[2], endSource[1] - 1, endSource[0]).getTime();
+
+  const cycleLength = countWorkDays + countOffDays;
+  const startIndex = 0;
+  const res = [];
+  let currentDate = start;
+
+  while (startIndex < cycleLength && currentDate <= end) {
+    let dayIndex = 0;
+    while (dayIndex < countWorkDays) {
+      const cur = new Date(currentDate);
+
+      if (currentDate <= end)
+        res.push(
+          `${cur.getDate().toString().padStart(2, 0)}-${(cur.getMonth() + 1)
+            .toString()
+            .padStart(2, 0)}-${cur.getFullYear()}`
+        );
+      dayIndex += 1;
+      currentDate += 1000 * 60 * 60 * 24;
+    }
+    dayIndex = 0;
+    while (dayIndex < countOffDays) {
+      dayIndex += 1;
+      currentDate += 1000 * 60 * 60 * 24;
+    }
+  }
+  return res;
+}
 /**
  * Determines whether the year in the provided date is a leap year.
  * A leap year is a year divisible by 4, but not by 100, unless it is also divisible by 400.
@@ -301,8 +335,11 @@ function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
  * Date(2022, 2, 1) => false
  * Date(2020, 2, 1) => true
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const year = new Date(date).getFullYear();
+  if (year % 4 === 0 && year % 100 !== 0) return true;
+  if (year % 400 === 0) return true;
+  return false;
 }
 
 module.exports = {
