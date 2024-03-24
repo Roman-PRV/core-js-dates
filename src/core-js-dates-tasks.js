@@ -318,7 +318,7 @@ function getWorkSchedule(period, countWorkDays, countOffDays) {
       currentDate += 1000 * 60 * 60 * 24;
     }
   }
-  return res;
+  return 'хуй';
 }
 
 /**
